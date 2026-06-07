@@ -1,0 +1,113 @@
+.App {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Smooth scrolling for navigation */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Loading animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
+
+/* Glitch effect for text */
+@keyframes glitch {
+  0% {
+    text-shadow: 0.05em 0 0 #00ffff, -0.05em -0.025em 0 #ff00ff,
+      0.025em 0.05em 0 #ffff00;
+  }
+  15% {
+    text-shadow: 0.05em 0 0 #00ffff, -0.05em -0.025em 0 #ff00ff,
+      0.025em 0.05em 0 #ffff00;
+  }
+  16% {
+    text-shadow: -0.05em -0.025em 0 #00ffff, 0.025em 0.025em 0 #ff00ff,
+      -0.05em -0.05em 0 #ffff00;
+  }
+  49% {
+    text-shadow: -0.05em -0.025em 0 #00ffff, 0.025em 0.025em 0 #ff00ff,
+      -0.05em -0.05em 0 #ffff00;
+  }
+  50% {
+    text-shadow: 0.025em 0.05em 0 #00ffff, 0.05em 0 0 #ff00ff,
+      0 -0.05em 0 #ffff00;
+  }
+  99% {
+    text-shadow: 0.025em 0.05em 0 #00ffff, 0.05em 0 0 #ff00ff,
+      0 -0.05em 0 #ffff00;
+  }
+  100% {
+    text-shadow: -0.025em 0 0 #00ffff, -0.025em -0.025em 0 #ff00ff,
+      -0.025em -0.05em 0 #ffff00;
+  }
+}
+
+.glitch {
+  animation: glitch 1s linear infinite;
+}
+
+/* Matrix rain effect */
+@keyframes matrix {
+  0% {
+    transform: translateY(-100vh);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+.matrix-char {
+  position: absolute;
+  color: var(--accent-primary);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  animation: matrix 3s linear infinite;
+  opacity: 0.7;
+}
+
+/* Neon glow effect */
+.neon-glow {
+  text-shadow: 
+    0 0 5px var(--accent-primary),
+    0 0 10px var(--accent-primary),
+    0 0 15px var(--accent-primary),
+    0 0 20px var(--accent-primary);
+}
+
+/* Holographic effect */
+.holographic {
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 70%
+  );
+  background-size: 200% 200%;
+  animation: holographic 3s ease-in-out infinite;
+}
+
+@keyframes holographic {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}

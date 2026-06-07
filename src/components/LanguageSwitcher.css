@@ -1,0 +1,29 @@
+.language-switcher {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.lang-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--neon-green);
+  background: transparent;
+  color: var(--text-color);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+  font-family: 'Courier New', monospace;
+}
+
+.lang-btn:hover {
+  background: var(--neon-green);
+  color: var(--bg-color);
+  box-shadow: 0 0 10px var(--neon-green);
+}
+
+.lang-btn.active {
+  background: var(--neon-green);
+  color: var(--bg-color);
+  box-shadow: 0 0 15px var(--neon-green);
+}
