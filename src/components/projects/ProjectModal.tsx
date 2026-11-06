@@ -56,8 +56,8 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                 className="w-full h-full object-cover object-top"
               />
             ) : null}
-            {/* Dark gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-midnight-card dark:from-midnight-card via-transparent to-black/40" />
+            {/* Gradient overlay - subtle bottom darkening for title readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30 pointer-events-none" />
 
             {/* Badges on Top */}
             <div className="absolute top-4 left-4 flex flex-wrap gap-2">

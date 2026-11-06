@@ -175,7 +175,7 @@ export const Innovation: React.FC = () => {
                 <Camera className="w-4 h-4 text-accent-blue" />
                 <span>INTERACTIVE COMPUTER VISION LAB</span>
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-white">
+              <h3 className="text-xl sm:text-2xl font-bold text-tech-light">
                 ExamGuard AI Proctoring Architecture Simulator
               </h3>
               <p className="text-xs sm:text-sm text-tech-slate">
@@ -189,8 +189,8 @@ export const Innovation: React.FC = () => {
                 onClick={() => setSimState('normal')}
                 className={`px-3 py-1.5 rounded-xl text-xs font-mono-code font-medium transition-all ${
                   simState === 'normal'
-                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm'
-                    : 'bg-midnight-surface text-tech-slate border border-midnight-border hover:text-white'
+                    ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 border border-emerald-500/40 shadow-sm'
+                    : 'bg-midnight-surface text-tech-slate border border-midnight-border hover:text-tech-light'
                 }`}
               >
                 Normal Focus
@@ -199,8 +199,8 @@ export const Innovation: React.FC = () => {
                 onClick={() => setSimState('gaze_away')}
                 className={`px-3 py-1.5 rounded-xl text-xs font-mono-code font-medium transition-all ${
                   simState === 'gaze_away'
-                    ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm'
-                    : 'bg-midnight-surface text-tech-slate border border-midnight-border hover:text-white'
+                    ? 'bg-amber-500/20 text-amber-600 dark:text-amber-300 border border-amber-500/40 shadow-sm'
+                    : 'bg-midnight-surface text-tech-slate border border-midnight-border hover:text-tech-light'
                 }`}
               >
                 Gaze Deviation
@@ -209,8 +209,8 @@ export const Innovation: React.FC = () => {
                 onClick={() => setSimState('multi_face')}
                 className={`px-3 py-1.5 rounded-xl text-xs font-mono-code font-medium transition-all ${
                   simState === 'multi_face'
-                    ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 shadow-sm'
-                    : 'bg-midnight-surface text-tech-slate border border-midnight-border hover:text-white'
+                    ? 'bg-rose-500/20 text-rose-600 dark:text-rose-300 border border-rose-500/40 shadow-sm'
+                    : 'bg-midnight-surface text-tech-slate border border-midnight-border hover:text-tech-light'
                 }`}
               >
                 Multi-Face
@@ -219,8 +219,8 @@ export const Innovation: React.FC = () => {
                 onClick={() => setSimState('phone_detected')}
                 className={`px-3 py-1.5 rounded-xl text-xs font-mono-code font-medium transition-all ${
                   simState === 'phone_detected'
-                    ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 shadow-sm'
-                    : 'bg-midnight-surface text-tech-slate border border-midnight-border hover:text-white'
+                    ? 'bg-rose-500/20 text-rose-600 dark:text-rose-300 border border-rose-500/40 shadow-sm'
+                    : 'bg-midnight-surface text-tech-slate border border-midnight-border hover:text-tech-light'
                 }`}
               >
                 Prohibited Device
@@ -320,7 +320,7 @@ export const Innovation: React.FC = () => {
 
               {/* Heuristic Incident Notice */}
               <div className={`p-4 rounded-xl ${sim.bgGlow} border ${sim.borderColor} space-y-1.5`}>
-                <div className="flex items-center gap-1.5 font-bold font-sans text-white text-xs">
+                <div className="flex items-center gap-1.5 font-bold font-sans text-tech-light text-xs">
                   <Activity className="w-4 h-4 text-accent-cyan" />
                   <span>Supervisor Incident Log</span>
                 </div>
@@ -329,7 +329,7 @@ export const Innovation: React.FC = () => {
                 </p>
               </div>
 
-              <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 text-[11px] text-tech-slate space-y-1">
+              <div className="p-3 rounded-xl bg-midnight-surface border border-midnight-border text-[11px] text-tech-slate space-y-1">
                 <div className="text-accent-blue font-semibold">// Pipeline Architecture</div>
                 <div>FastAPI WebSocket &bull; YOLOv8s &bull; OpenCV Landmark Extraction &bull; MySQL Audit DB</div>
               </div>

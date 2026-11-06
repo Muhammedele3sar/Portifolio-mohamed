@@ -95,8 +95,8 @@ export const Projects: React.FC = () => {
                     />
                   ) : null}
 
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 z-20 bg-gradient-to-t from-midnight-card dark:from-midnight-card via-transparent to-black/20" />
+                  {/* Gradient Overlay - Subtle vignette that keeps image fully visible */}
+                  <div className="absolute inset-0 z-20 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
 
                   {/* Badge */}
                   <div className="absolute top-3 left-3 z-30">

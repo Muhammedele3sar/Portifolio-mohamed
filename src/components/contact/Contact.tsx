@@ -23,8 +23,10 @@ export const Contact: React.FC = () => {
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
+  const [submissionFeedback, setSubmissionFeedback] = useState<string>('');
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(personalInfo.email);
@@ -45,21 +47,46 @@ export const Contact: React.FC = () => {
     return errs;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const errs = validate();
     setErrors(errs);
 
     if (Object.keys(errs).length === 0) {
-      // Create mailto fallback directly so message is never lost
-      const mailtoUrl = `mailto:${personalInfo.email}?subject=${encodeURIComponent(
-        `[Portfolio] ${formData.subject}`
-      )}&body=${encodeURIComponent(
-        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-      )}`;
+      setSubmitting(true);
+      try {
+        // 1. Try sending to local/remote backend API with SQLite database
+        const apiUrl = 'http://localhost:5000/api/contact';
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
 
-      window.location.href = mailtoUrl;
-      setSubmitted(true);
+        if (response.ok) {
+          const data = await response.json();
+          setSubmissionFeedback(
+            data.message || 'Message stored safely in the database and forwarded.'
+          );
+          setSubmitted(true);
+        } else {
+          throw new Error('Backend server returned error');
+        }
+      } catch (err) {
+        // Fallback: If backend is not running yet, dispatch via direct mailto so message is never lost
+        const mailtoUrl = `mailto:${personalInfo.email}?subject=${encodeURIComponent(
+          `[Portfolio] ${formData.subject}`
+        )}&body=${encodeURIComponent(
+          `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+        )}`;
+        window.location.href = mailtoUrl;
+        setSubmissionFeedback(
+          'Your default email application was prepared with this inquiry. Direct mail dispatch initiated.'
+        );
+        setSubmitted(true);
+      } finally {
+        setSubmitting(false);
+      }
     }
   };
 
@@ -228,11 +255,15 @@ export const Contact: React.FC = () => {
                 <div className="p-6 rounded-2xl bg-emerald-950/40 border border-emerald-800/50 space-y-3">
                   <div className="flex items-center gap-2 text-emerald-400 font-bold text-base">
                     <CheckCircle className="w-5 h-5" />
-                    <span>Message Dispatched via Email Client</span>
+                    <span>Inquiry Successfully Recorded</span>
                   </div>
                   <p className="text-xs sm:text-sm text-tech-slate leading-relaxed">
-                    Thank you! Your default email program opened with your message. If it didn&apos;t open automatically, you can always email me directly at{' '}
-                    <strong className="text-tech-light">{personalInfo.email}</strong>.
+                    {submissionFeedback || (
+                      <>
+                        Thank you! Your inquiry was received. You can also reach me directly at{' '}
+                        <strong className="text-tech-light">{personalInfo.email}</strong>.
+                      </>
+                    )}
                   </p>
                   <button
                     onClick={() => {
@@ -331,10 +362,11 @@ export const Contact: React.FC = () => {
                   {/* Submit CTA */}
                   <button
                     type="submit"
-                    className="w-full py-4 rounded-xl font-semibold text-sm bg-accent-blue hover:bg-accent-hover text-white flex items-center justify-center gap-2 shadow-glow-blue transition-all hover:scale-[1.01] active:scale-[0.99]"
+                    disabled={submitting}
+                    className="w-full py-4 rounded-xl font-semibold text-sm bg-accent-blue hover:bg-accent-hover disabled:opacity-50 text-white flex items-center justify-center gap-2 shadow-glow-blue transition-all hover:scale-[1.01] active:scale-[0.99]"
                   >
                     <Send className="w-4 h-4" />
-                    <span>Send Message to Mohamed</span>
+                    <span>{submitting ? 'Sending to Database & Forwarding...' : 'Send Message to Mohamed'}</span>
                   </button>
                 </form>
               )}
