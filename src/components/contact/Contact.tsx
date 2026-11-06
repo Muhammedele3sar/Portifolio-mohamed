@@ -57,30 +57,31 @@ export const Contact: React.FC = () => {
     setSubmitError(false);
 
     try {
-      // Send via Formspree — delivers instantly to mohameddnourr235@gmail.com
-      const response = await fetch('https://formspree.io/f/xkjjeyrd', {
+      // Send via Web3Forms — works from localhost & production, no domain verification needed
+      // Delivers instantly to mohameddnourr235@gmail.com
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
         body: JSON.stringify({
+          access_key: '91b5c7a4-7580-4a0e-ae49-0f907eedd3f1',
           name: formData.name,
           email: formData.email,
-          _subject: `[Portfolio] ${formData.subject}`,
+          subject: `[Portfolio] ${formData.subject}`,
           message: formData.message,
-          _replyto: formData.email,
+          from_name: 'Mohamed Portfolio Website',
         }),
       });
 
       const data = await response.json();
 
-      if (response.ok && data.ok) {
+      if (response.ok && data.success) {
         setSubmitted(true);
         setFormData({ name: '', email: '', subject: '', message: '' });
       } else {
-        // Show Formspree's error message if available
-        throw new Error(data?.error || 'Submission failed');
+        throw new Error(data?.message || 'Submission failed');
       }
     } catch (_err) {
       setSubmitError(true);
