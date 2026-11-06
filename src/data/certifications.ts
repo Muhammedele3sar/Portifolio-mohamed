@@ -1,0 +1,68 @@
+import { Certification } from '../types';
+
+export const certifications: Certification[] = [
+  {
+    id: 'coursera-nn-dl',
+    title: 'Neural Networks and Deep Learning',
+    issuer: 'Coursera',
+    year: '2023',
+    skills: ['Deep Learning', 'Neural Networks', 'Backpropagation', 'Python'],
+    credentialNote: 'DeepLearning.AI specialization coursework',
+    badgeColor: 'blue',
+  },
+  {
+    id: 'coursera-frontend',
+    title: 'Frontend Development',
+    issuer: 'Coursera',
+    year: '2023',
+    skills: ['React', 'JavaScript', 'Responsive UI', 'Modern Web Standards'],
+    credentialNote: 'Professional Frontend Specialization',
+    badgeColor: 'cyan',
+  },
+  {
+    id: 'nti-ai',
+    title: 'Introduction to Artificial Intelligence',
+    issuer: 'NTI (National Telecommunication Institute)',
+    year: '2023',
+    skills: ['Artificial Intelligence', 'Machine Learning Foundations', 'Python'],
+    credentialNote: 'National Telecommunication Institute Program',
+    badgeColor: 'blue',
+  },
+  {
+    id: 'freecodecamp-js',
+    title: 'JavaScript Algorithms and Data Structures',
+    issuer: 'freeCodeCamp',
+    year: '2023',
+    skills: ['JavaScript', 'Algorithms', 'Data Structures', 'ES6+'],
+    credentialNote: 'Verified Core Curriculum Completion',
+    badgeColor: 'amber',
+  },
+  {
+    id: 'edraak-ds-ml',
+    title: 'Data Science and Machine Learning',
+    issuer: 'Edraak',
+    year: '2023',
+    skills: ['Data Science', 'Machine Learning', 'Data Analysis', 'Statistics'],
+    credentialNote: 'Applied Data Science Curriculum',
+    badgeColor: 'emerald',
+  },
+  {
+    id: 'edraak-problem-solving',
+    title: 'Problem Solving and Decision Making',
+    issuer: 'Edraak',
+    year: '2023',
+    skills: ['Analytical Thinking', 'Problem Solving', 'Strategic Logic'],
+    credentialNote: 'Professional Engineering Competencies',
+    badgeColor: 'indigo',
+  },
+  {
+    id: 'maharatech-php-mysql',
+    title: 'Introduction to PHP & MySQL',
+    issuer: 'MaharaTech (ITI)',
+    year: '2023',
+    skills: ['PHP', 'MySQL', 'Relational Databases', 'Backend Basics'],
+    credentialNote: 'Information Technology Institute (ITI) E-Learning',
+    badgeColor: 'blue',
+  },
+];
+

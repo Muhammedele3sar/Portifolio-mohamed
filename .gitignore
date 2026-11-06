@@ -11,10 +11,10 @@ node_modules
 dist
 dist-ssr
 *.local
+*.tsbuildinfo
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
+# Editor & system
+.vscode
 .idea
 .DS_Store
 *.suo
@@ -22,3 +22,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+__pycache__/
+python.py

@@ -1,36 +1,56 @@
-import React from 'react';
-import Hero from './components/Hero';
-import About from './components/About';
-import Skills from './components/Skills';
-import Projects from './components/Projects';
-import Contact from './components/Contact';
-import Navigation from './components/Navigation';
-import ParticleBackground from './components/ParticleBackground';
-import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
-import './App.css';
+import React, { useState } from 'react';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { BackgroundCanvas } from './components/layout/BackgroundCanvas';
+import { Navbar } from './components/navigation/Navbar';
+import { Hero } from './components/hero/Hero';
+import { About } from './components/about/About';
+import { Expertise } from './components/expertise/Expertise';
+import { Projects } from './components/projects/Projects';
+import { Innovation } from './components/innovation/Innovation';
+import { Experience } from './components/experience/Experience';
+import { Education } from './components/education/Education';
+import { Certifications } from './components/certifications/Certifications';
+import { Contact } from './components/contact/Contact';
+import { Footer } from './components/layout/Footer';
+import { CVModal } from './components/ui/CVModal';
 
 const AppContent: React.FC = () => {
-  const { language } = useLanguage();
+  const [isCVModalOpen, setIsCVModalOpen] = useState(false);
 
   return (
-    <div className="App" dir={language === 'ar' ? 'rtl' : 'ltr'}>
-      <ParticleBackground />
-      <Navigation />
-      <Hero />
-      <About />
-      <Skills />
-      <Projects />
-      <Contact />
+    <div className="relative min-h-screen selection:bg-accent-blue/30 selection:text-accent-cyan bg-midnight-bg text-tech-light transition-colors duration-300">
+      {/* Background Engineering Atmosphere */}
+      <BackgroundCanvas />
+
+      {/* Navigation */}
+      <Navbar onOpenCV={() => setIsCVModalOpen(true)} />
+
+      {/* Main Content Sections */}
+      <main className="relative z-10">
+        <Hero onOpenCV={() => setIsCVModalOpen(true)} />
+        <About />
+        <Expertise />
+        <Projects />
+        <Innovation />
+        <Experience />
+        <Education />
+        <Certifications />
+        <Contact />
+      </main>
+
+      {/* Footer */}
+      <Footer />
+
+      {/* Curriculum Vitae Modal */}
+      <CVModal isOpen={isCVModalOpen} onClose={() => setIsCVModalOpen(false)} />
     </div>
   );
 };
 
-function App() {
+export default function App() {
   return (
-    <LanguageProvider>
+    <ThemeProvider>
       <AppContent />
-    </LanguageProvider>
+    </ThemeProvider>
   );
 }
-
-export default App;
