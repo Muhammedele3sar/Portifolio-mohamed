@@ -25,8 +25,8 @@ export const Contact: React.FC = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
-  const [submissionFeedback, setSubmissionFeedback] = useState<string>('');
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(personalInfo.email);
@@ -51,42 +51,41 @@ export const Contact: React.FC = () => {
     e.preventDefault();
     const errs = validate();
     setErrors(errs);
+    if (Object.keys(errs).length !== 0) return;
 
-    if (Object.keys(errs).length === 0) {
-      setSubmitting(true);
-      try {
-        // 1. Try sending to local/remote backend API with SQLite database
-        const apiUrl = 'http://localhost:5000/api/contact';
-        const response = await fetch(apiUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData),
-        });
+    setSubmitting(true);
+    setSubmitError(false);
 
-        if (response.ok) {
-          const data = await response.json();
-          setSubmissionFeedback(
-            data.message || 'Message stored safely in the database and forwarded.'
-          );
-          setSubmitted(true);
-        } else {
-          throw new Error('Backend server returned error');
-        }
-      } catch (err) {
-        // Fallback: If backend is not running yet, dispatch via direct mailto so message is never lost
-        const mailtoUrl = `mailto:${personalInfo.email}?subject=${encodeURIComponent(
-          `[Portfolio] ${formData.subject}`
-        )}&body=${encodeURIComponent(
-          `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-        )}`;
-        window.location.href = mailtoUrl;
-        setSubmissionFeedback(
-          'Your default email application was prepared with this inquiry. Direct mail dispatch initiated.'
-        );
+    try {
+      // Send via Formspree — delivers instantly to mohameddnourr235@gmail.com
+      const response = await fetch('https://formspree.io/f/xkjjeyrd', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          _subject: `[Portfolio] ${formData.subject}`,
+          message: formData.message,
+          _replyto: formData.email,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.ok) {
         setSubmitted(true);
-      } finally {
-        setSubmitting(false);
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        // Show Formspree's error message if available
+        throw new Error(data?.error || 'Submission failed');
       }
+    } catch (_err) {
+      setSubmitError(true);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -247,7 +246,7 @@ export const Contact: React.FC = () => {
                   Send a Message
                 </h3>
                 <p className="text-xs sm:text-sm text-tech-slate">
-                  Fill in your project requirements or question. Clicking submit prepares your message directly.
+                  Fill in your details below. Your message will be delivered directly to my email inbox.
                 </p>
               </div>
 
@@ -255,24 +254,42 @@ export const Contact: React.FC = () => {
                 <div className="p-6 rounded-2xl bg-emerald-950/40 border border-emerald-800/50 space-y-3">
                   <div className="flex items-center gap-2 text-emerald-400 font-bold text-base">
                     <CheckCircle className="w-5 h-5" />
-                    <span>Inquiry Successfully Recorded</span>
+                    <span>Message Sent Successfully! ✓</span>
                   </div>
                   <p className="text-xs sm:text-sm text-tech-slate leading-relaxed">
-                    {submissionFeedback || (
-                      <>
-                        Thank you! Your inquiry was received. You can also reach me directly at{' '}
-                        <strong className="text-tech-light">{personalInfo.email}</strong>.
-                      </>
-                    )}
+                    Thank you! Your message was delivered directly to my inbox at{' '}
+                    <strong className="text-tech-light">{personalInfo.email}</strong>.
+                    I will get back to you shortly!
                   </p>
                   <button
                     onClick={() => {
                       setSubmitted(false);
+                      setSubmitError(false);
                       setFormData({ name: '', email: '', subject: '', message: '' });
                     }}
                     className="text-xs font-mono-code text-accent-cyan underline underline-offset-4"
                   >
                     Send another message
+                  </button>
+                </div>
+              ) : submitError ? (
+                <div className="p-6 rounded-2xl bg-rose-950/40 border border-rose-800/50 space-y-3">
+                  <div className="flex items-center gap-2 text-rose-400 font-bold text-base">
+                    <AlertCircle className="w-5 h-5" />
+                    <span>Sending Failed</span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-tech-slate leading-relaxed">
+                    Something went wrong. Please email me directly at{' '}
+                    <a href={`mailto:${personalInfo.email}`} className="text-accent-blue underline">
+                      {personalInfo.email}
+                    </a>{' '}
+                    or try again.
+                  </p>
+                  <button
+                    onClick={() => setSubmitError(false)}
+                    className="text-xs font-mono-code text-accent-cyan underline underline-offset-4"
+                  >
+                    Try again
                   </button>
                 </div>
               ) : (
@@ -366,7 +383,7 @@ export const Contact: React.FC = () => {
                     className="w-full py-4 rounded-xl font-semibold text-sm bg-accent-blue hover:bg-accent-hover disabled:opacity-50 text-white flex items-center justify-center gap-2 shadow-glow-blue transition-all hover:scale-[1.01] active:scale-[0.99]"
                   >
                     <Send className="w-4 h-4" />
-                    <span>{submitting ? 'Sending to Database & Forwarding...' : 'Send Message to Mohamed'}</span>
+                    <span>{submitting ? 'Sending...' : 'Send Message to Mohamed'}</span>
                   </button>
                 </form>
               )}
